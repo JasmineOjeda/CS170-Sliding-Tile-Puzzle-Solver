@@ -10,22 +10,10 @@ class Main {
         Graph graph = new Graph(new Node(new Problem(p)));
         Problem test = graph.root.state;
 
-        test.displayPuzzle();
-        test.moveAsteriskUp();
-        System.out.print("\n");
-        test.displayPuzzle();
-        test.moveAsteriskRight();
-        System.out.print("\n");
-        test.displayPuzzle();
-        test.moveAsteriskLeft();
-        System.out.print("\n");
-        test.displayPuzzle();
-        test.moveAsteriskLeft();
-        System.out.print("\n");
-        test.displayPuzzle();
-        test.moveAsteriskDown();
-        System.out.print("\n");
-        test.displayPuzzle();
+        do {
+            test.displayPuzzle();
+            System.out.print("\n");
+        } while (test.moveAsteriskUp());
         
         System.out.println("SUCCESS");
     }

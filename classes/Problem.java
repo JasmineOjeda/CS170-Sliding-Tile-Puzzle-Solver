@@ -24,44 +24,52 @@ public class Problem {
         }
     }
 
-    public void moveAsteriskUp() {
+    public boolean moveAsteriskUp() {
         if (asterisk_x != 0) {
             int temp_piece = puzzle[asterisk_x - 1][asterisk_y];
             puzzle[asterisk_x - 1][asterisk_y] = 0;
             puzzle[asterisk_x][asterisk_y] = temp_piece;
 
             findAsteriskLocation();
+            return true;
         }
+        return false;
     }
 
-    public void moveAsteriskDown() {
+    public boolean moveAsteriskDown() {
         if (asterisk_x != (puzzle.length - 1)) {
             int temp_piece = puzzle[asterisk_x + 1][asterisk_y];
             puzzle[asterisk_x + 1][asterisk_y] = 0;
             puzzle[asterisk_x][asterisk_y] = temp_piece;
 
             findAsteriskLocation();
+            return true;
         }
+        return false;
     }
 
-    public void moveAsteriskLeft() {
+    public boolean moveAsteriskLeft() {
         if (asterisk_y != 0) {
             int temp_piece = puzzle[asterisk_x][asterisk_y - 1];
             puzzle[asterisk_x][asterisk_y - 1] = 0;
             puzzle[asterisk_x][asterisk_y] = temp_piece;
 
             findAsteriskLocation();
+            return true;
         }
+        return false;
     }
 
-    public void moveAsteriskRight() {
+    public boolean moveAsteriskRight() {
         if (asterisk_y != (puzzle[0].length - 1)) {
             int temp_piece = puzzle[asterisk_x][asterisk_y + 1];
             puzzle[asterisk_x][asterisk_y + 1] = 0;
             puzzle[asterisk_x][asterisk_y] = temp_piece;
 
             findAsteriskLocation();
+            return true;
         }
+        return false;
     }
 
     public void displayPuzzle() {
