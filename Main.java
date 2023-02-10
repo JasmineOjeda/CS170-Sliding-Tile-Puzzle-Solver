@@ -17,6 +17,15 @@ class Main {
         test.moveAsteriskRight();
         System.out.print("\n");
         test.displayPuzzle();
+        test.moveAsteriskLeft();
+        System.out.print("\n");
+        test.displayPuzzle();
+        test.moveAsteriskLeft();
+        System.out.print("\n");
+        test.displayPuzzle();
+        test.moveAsteriskDown();
+        System.out.print("\n");
+        test.displayPuzzle();
         
         System.out.println("SUCCESS");
     }
