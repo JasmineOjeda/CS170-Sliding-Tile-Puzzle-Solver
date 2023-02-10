@@ -18,6 +18,6 @@ class Main {
         System.out.print("\n");
         test.displayPuzzle();
         
-        //System.out.println("SUCCESS");
+        System.out.println("SUCCESS");
     }
 }
