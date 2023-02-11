@@ -1,10 +1,13 @@
-//import classes.Problem;
 import classes.Node;
 import classes.Graph;
 
 import java.util.*;
 
 class Main {
+     enum SearchType {
+        UNIFORM_COST, A_STAR_MISPLACE_TILES, A_STAR_EUCLIDEAN_DISTANCE
+    }
+
     public static Comparator<Node> utilityComparator = new Comparator<Node>() {
         @Override
         public int compare(Node node, Node other) {
@@ -20,15 +23,30 @@ class Main {
 
         Graph graph = new Graph(new Node(p));
         
-        Node solution = uniformCostSearch(graph);
+        Node solution = graphSearchAlg(graph, SearchType.A_STAR_EUCLIDEAN_DISTANCE);
 
         if (solution != null) {
-            traceBack(solution);
+            displayTraceBack(traceBack(solution, new ArrayList<Node>()));
+        }
+        else {
+            System.out.println("NO SOLUTION TO THIS PROBLEM");
         }
     }
 
-    public static Node uniformCostSearch(Graph graph) {
-        System.out.println("Uniform Cost Search");
+    public static Node graphSearchAlg(Graph graph, SearchType type) {
+        int type_num = 0;
+        if (type == SearchType.UNIFORM_COST) {
+            type_num = 0;
+            System.out.println("Using Uniform Cost Search...");
+        }
+        else if (type == SearchType.A_STAR_MISPLACE_TILES) {
+            type_num = 1;
+            System.out.println("Using A* Search (misplaced tiles heurisitic)...");
+        }
+        else if (type == SearchType.A_STAR_EUCLIDEAN_DISTANCE) {
+            type_num = 2;
+            System.out.println("Using A* Search (Euclidean distances heurisitic)...");
+        }
 
         Node node =  null;
         PriorityQueue<Node> frontier = new PriorityQueue<>(utilityComparator);
@@ -37,7 +55,6 @@ class Main {
   
         do {
             if (frontier.size() == 0) {
-                System.out.println("NO SOLUTION TO THIS PROBLEM");
                 return null;
             }
             else {
@@ -45,7 +62,6 @@ class Main {
             }
 
             if (node.state.checkGoal()) {
-                System.out.println("SOLUTION FOUND!!");
                 return node;
             }
             else {
@@ -53,7 +69,7 @@ class Main {
             }
             
             for (int i = 0; i < node.actions.length; i++) {
-                if (node.expandNode(1, node.actions[i])) {
+                if (node.expandNode(type_num, node.actions[i])) {
 
                 Node child = node.children.get(node.children.size() - 1);
 
@@ -75,6 +91,7 @@ class Main {
         } while(true);
     }
 
+
     // HELPER FUNCTIONS
     public static int indexOfNode(Node node, ArrayList<Node> list) {
         int count = 0;
@@ -94,7 +111,7 @@ class Main {
     }
 
     public static PriorityQueue<Node> replaceNodeInList(int index, Node node, PriorityQueue<Node> frontier) {
-        PriorityQueue<Node> new_frontier = new PriorityQueue<Node>();
+        PriorityQueue<Node> new_frontier = new PriorityQueue<Node>(utilityComparator);
 
         for (int i = 0; i < frontier.size(); i++) {
             if (i == index) {
@@ -108,12 +125,33 @@ class Main {
         return new_frontier;
     }
 
-    public static void traceBack(Node node) {
-        System.out.println(node.action);
-        node.state.displayPuzzle();
+    public static ArrayList<Node> traceBack(Node node, ArrayList<Node> trace) {
+        trace.add(node);
 
         if (node.parent != null) {
-            traceBack(node.parent);
+            traceBack(node.parent, trace);
+        }
+
+        return trace;
+    }
+
+    public static void displayTraceBack(ArrayList<Node> trace) {
+        int count = 0;
+
+
+        for (int i = trace.size() - 1; i >= 0; i--) {
+            if (count == 0) {
+                System.out.println("------------------------------------------");
+                System.out.println("SOLUTION TO THE PUZZLE:\n");
+                trace.get(i).state.displayPuzzle();
+                System.out.println("------------------------------------------");
+            } 
+            else {
+                System.out.println("STEP " + count+ ": " + trace.get(i).action);
+                trace.get(i).state.displayPuzzle();
+                //System.out.println("\n");
+            }
+            count++;
         }
     }
 }

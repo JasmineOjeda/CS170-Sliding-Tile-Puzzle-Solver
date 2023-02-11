@@ -26,8 +26,10 @@ public class Node {
         action = act;
     }
 
-    public boolean expandNode(int cost, String act) {
-        children.add(new Node(state.puzzle, this, utility + cost, act));
+    public boolean expandNode(int cost_type, String act) {
+        int cost = 0;
+
+        children.add(new Node(state.puzzle, this, utility, act));
         boolean valid = false;
         if (act.equals("Move right")) {
             valid = children.get(children.size() - 1).state.moveBlankRight();
@@ -42,6 +44,58 @@ public class Node {
             valid = children.get(children.size() - 1).state.moveBlankDown();
         }
 
+        cost = calculateCostFromType(cost_type, state.goal, state.puzzle);
+        children.get(children.size() - 1).utility += cost;
+
         return valid;
+    }
+
+    public static int calculateCostFromType(int cost_type, int[][] goal, int[][] puzzle) {
+        int cost = 0;
+
+        if (cost_type == 0) {
+            cost = 1;
+        }
+        else if (cost_type == 1) {
+            cost = misplacedTileHeuristic(goal,puzzle);
+        }
+        else if (cost_type == 2) {
+            cost = euclideanDistanceHeuristic(goal, puzzle);
+        }
+
+        return cost;
+    }
+
+    // A* HEURISTIC FUNCTIONS
+    public static int misplacedTileHeuristic(int[][] goal, int[][] puzzle) {
+        int cost = 0;
+
+        for (int i = 0; i < goal.length; i++) {
+            for (int j = 0; j < goal[i].length; j++) {
+                if (goal[i][j] != puzzle[i][j]) {
+                    cost++;
+                }
+            }
+        }
+        return cost;
+    }
+
+    public static int euclideanDistanceHeuristic(int[][] goal, int[][] puzzle) {
+        int cost = 0;
+
+        for (int i = 0; i < puzzle.length; i++) {
+            for (int j = 0; j < puzzle[i].length; j++) {
+                int piece = puzzle[i][j];
+
+                for (int a = 0; a < goal.length; a++) {
+                    for (int b = 0; b < goal[0].length; b++) {
+                        if (piece == goal[a][b]) { 
+                            cost += Math.sqrt(Math.pow(b - j, 2) + Math.pow(a - i, 2));
+                        }
+                    }
+                }
+            }
+        }
+        return cost;
     }
 }
