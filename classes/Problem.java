@@ -2,6 +2,11 @@
 package classes;
 
 public class Problem {
+    public int puzzle[][];
+    public int goal[][];
+    public int blank_x;
+    public int blank_y;
+
     public Problem(int p[][]) {
         puzzle = new int[p.length][p[0].length];
         goal = new int[p.length][p[0].length];
@@ -16,11 +21,6 @@ public class Problem {
         findBlankLocation();
         createGoal();
     }
-
-    public int puzzle[][];
-    public int goal[][];
-    public int blank_x;
-    public int blank_y;
 
     // INITIALIZATION: Find the location of the "Blank" tile
     public void findBlankLocation() {
@@ -114,5 +114,22 @@ public class Problem {
             }
         }
         return true;
+    }
+
+    public void displayPuzzle() {
+        for (int i = 0; i < puzzle.length; i++) {
+            for (int j = 0; j < puzzle[i].length; j++) {
+                int piece = puzzle[i][j];
+    
+                if (piece == 0) {
+                    System.out.print("* ");
+                }
+                else {
+                    System.out.print(piece + " ");
+                }
+            }
+                    
+            System.out.print("\n");
+        }
     }
 }
