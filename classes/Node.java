@@ -88,7 +88,7 @@ public class Node {
                 int piece = puzzle[i][j];
 
                 for (int a = 0; a < goal.length; a++) {
-                    for (int b = 0; b < goal[0].length; b++) {
+                    for (int b = 0; b < goal[a].length; b++) {
                         if (piece == goal[a][b]) { 
                             cost += Math.sqrt(Math.pow(b - j, 2) + Math.pow(a - i, 2));
                         }

@@ -19,7 +19,8 @@ class Main {
         //int p[][] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}}; // 1
         //int p[][] = {{1, 2, 3}, {4, 5, 6}, {7, 0, 8}}; // Very Easy
         //int p[][] = {{1, 2, 0}, {4, 5, 3}, {7, 8, 6}}; // Easy
-        int p[][] = {{0, 1, 2}, {4, 5, 3}, {7, 8, 6}}; // Doable
+        //int p[][] = {{0, 1, 2}, {4, 5, 3}, {7, 8, 6}}; // Doable
+        int p[][] = {{1, 0, 3}, {4, 2, 6}, {7, 5, 8}};
 
         Graph graph = new Graph(new Node(p));
         
@@ -69,7 +70,7 @@ class Main {
             }
             
             for (int i = 0; i < node.actions.length; i++) {
-                if (node.expandNode(type_num, node.actions[i])) {
+                node.expandNode(type_num, node.actions[i]);
 
                 Node child = node.children.get(node.children.size() - 1);
 
@@ -86,7 +87,6 @@ class Main {
                         frontier = replaceNodeInList(child_index_frontier, child, frontier);
                     }
                 }
-            }
             }
         } while(true);
     }
